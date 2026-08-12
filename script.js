@@ -29,15 +29,15 @@ let item = {
     y: 0, 
     width: 45, 
     height: 45, 
-    speed: 4, 
+    speed: 6, 
     letter: targetLetters[0] 
 };
 
-// Data 3 BOM Sekaligus
+// Data 3 BOM Sekaligus (Dibuat Lebih Cepat!)
 let bombs = [
-    { x: Math.random() * 350, y: -100, width: 30, height: 30, speed: 4.5 },
-    { x: Math.random() * 350, y: -250, width: 30, height: 30, speed: 5.5 },
-    { x: Math.random() * 350, y: -400, width: 30, height: 30, speed: 5.0 }
+    { x: Math.random() * 350, y: -100, width: 30, height: 30, speed: 7.0 },
+    { x: Math.random() * 350, y: -250, width: 30, height: 30, speed: 8.5 },
+    { x: Math.random() * 350, y: -400, width: 30, height: 30, speed: 7.5 }
 ];
 
 let score = 0;
@@ -66,7 +66,7 @@ window.addEventListener("touchmove", (e) => {
 }, { passive: true });
 
 // ==========================================
-// --- 4. LOGIKA PERMAIANAN ---
+// --- 4. LOGIKA PERMAINAN ---
 // ==========================================
 
 function resetItem() {
@@ -77,11 +77,11 @@ function resetItem() {
     item.x = Math.random() * (canvas.width - item.width);
     item.letter = currentLetter;
 
-    // Rasio Kecepatan 4:20 Khusus Huruf 'O'
+    // Rasio Kecepatan Khusus Huruf 'O' (Super Cepat)
     if (currentLetter === 'O') {
-        item.speed = 20; // Sangat cepat / susah ditangkap
+        item.speed = 22; // Huruf O sangat kilat!
     } else {
-        item.speed = 4;  // Normal
+        item.speed = 6;  // Kecepatan biasa ditingkatkan jadi 6
     }
 }
 
@@ -98,7 +98,7 @@ function checkCollision(obj1, obj2) {
     );
 }
 
-// Cek apakah SEMUA huruf (termasuk O) sudah terkumpul
+// Cek Wajib Lengkap SEMUA Huruf Termasuk 'O'
 function checkWinCondition() {
     return Object.values(collectedLetters).every(status => status === true);
 }
@@ -117,7 +117,7 @@ function gameLoop() {
     // Deteksi Tangkapan Burger
     if (checkCollision(item, player)) {
         score += 10;
-        collectedLetters[item.letter] = true; // Tandai huruf berhasil didapatkan!
+        collectedLetters[item.letter] = true;
         
         if (checkWinCondition()) {
             isWin = true;
@@ -126,12 +126,12 @@ function gameLoop() {
         }
     }
     
-    // Burger Luput / Jatuh ke Bawah
+    // Burger Luput / Jatuh
     if (item.y > canvas.height) {
         resetItem();
     }
     
-    // Deteksi Tabrakan dengan 3 Bom
+    // Deteksi 3 Bom
     bombs.forEach(b => {
         if (checkCollision(b, player)) {
             lives -= 1;
@@ -157,7 +157,7 @@ function gameLoop() {
     ctx.textAlign = "center";
     ctx.fillText(item.letter, item.x + (item.width / 2), item.y + (item.height / 2) + 6);
 
-    // 4. Gambar 3 Bom
+    // 4. MENGGAMBAR 3 BOM
     bombs.forEach(b => {
         ctx.fillStyle = "#000000";
         ctx.beginPath();
@@ -174,7 +174,7 @@ function gameLoop() {
     ctx.fillText("SKOR: " + score, 15, 25);
     ctx.fillText("NYAWA: " + lives, canvas.width - 90, 25);
 
-    // --- PAPAN TARGET HURUF (VISUAL G O U R M E T) ---
+    // --- PAPAN TARGET VISUAL G O U R M E T ---
     ctx.font = "bold 18px Arial";
     ctx.textAlign = "center";
     let startX = canvas.width / 2 - 75;
@@ -182,10 +182,10 @@ function gameLoop() {
     targetLetters.forEach((char, index) => {
         let posX = startX + (index * 25);
         if (collectedLetters[char]) {
-            ctx.fillStyle = char === 'O' ? "#E67E22" : "#2E7D32"; // Warna terang jika sudah dapat
+            ctx.fillStyle = char === 'O' ? "#E67E22" : "#2E7D32";
             ctx.fillText(char, posX, 50);
         } else {
-            ctx.fillStyle = "#CCCCCC"; // Warna abu-abu jika belum didapatkan
+            ctx.fillStyle = "#CCCCCC";
             ctx.fillText("_", posX, 50);
         }
     });
