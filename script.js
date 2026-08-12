@@ -157,6 +157,12 @@ function gameLoop() {
     }
 
     requestAnimationFrame(gameLoop);
+    
+    // Memaksa browser langsung fokus ke window game begitu halaman terbuka
+window.focus();
+
+// Menjalankan game loop
+gameLoop();
 }
 
 // Mulai Game
