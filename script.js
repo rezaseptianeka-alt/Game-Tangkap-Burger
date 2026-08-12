@@ -34,10 +34,10 @@ let item = {
 };
 
 // Data Bom
-let bomb = { x: Math.random() * 350, y: -200, width: 30, height: 30, speed: 5 };
+let bomb = { x: Math.random() * 350, y: -200, width: 30, height: 30, speed: 10 };
 
 let score = 0;
-let lives = 3;
+let lives = 2;
 let isGameOver = false;
 
 // ==========================================
@@ -92,7 +92,7 @@ function resetItem() {
     if (currentLetter === 'O') {
         item.speed = 20; // Sangat cepat
     } else {
-        item.speed = 4;  // Normal
+        item.speed = 8;  // Normal
     }
 }
 
